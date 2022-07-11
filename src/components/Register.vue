@@ -109,6 +109,10 @@ export default class Register extends Vue {
             (error) => {
               this.message = error.response.data.message;
               this.successful = false;
+              this.$notify.error({
+                title: 'Error',
+                message: error.response.data.message
+              });
             }
         );
       }

@@ -4,9 +4,7 @@
       <img
           id="profile-img"
           src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-          class="profile-img-card"
-      />
-
+          class="profile-img-card"/>
       <form name="form" @submit.prevent="handleChangePassword">
         <div v-if="!successful">
           <div class="form-group">
@@ -20,24 +18,10 @@
             />
             <div
                 v-if="submitted && errors.has('username')"
-                class="alert-danger"
-            >
+                class="alert-danger">
               {{ errors.first("username") }}
             </div>
           </div>
-          <!--          <div class="form-group">-->
-          <!--            <label for="email">Email</label>-->
-          <!--            <input-->
-          <!--                v-model="user.email"-->
-          <!--                v-validate="'required|email|max:50'"-->
-          <!--                type="email"-->
-          <!--                class="form-control"-->
-          <!--                name="email"-->
-          <!--            />-->
-          <!--            <div v-if="submitted && errors.has('email')" class="alert-danger">-->
-          <!--              {{ errors.first("email") }}-->
-          <!--            </div>-->
-          <!--          </div>-->
           <div class="form-group">
             <label for="password">Old Password</label>
             <input
@@ -136,6 +120,10 @@ export default class UserBoard extends Vue {
               (error.response && error.response.data && error.response.data.message) ||
               error.message ||
               error.toString();
+          this.$notify.error({
+            title: 'Error',
+            message: error.message
+          });
         }
     );
   }
@@ -151,10 +139,19 @@ export default class UserBoard extends Vue {
             (data) => {
               this.successful = true;
               this.$router.push("/home");
+              this.$notify({
+                title: 'Success',
+                message: 'This is a success message',
+                type: 'success'
+              });
             },
             (error) => {
               this.message = error.response.data.message;
               this.successful = false;
+              this.$notify.error({
+                title: 'Error',
+                message: error.response.data.message
+              });
             }
         );
       }
@@ -163,16 +160,6 @@ export default class UserBoard extends Vue {
 }
 </script>
 <style scoped>
-
-.container-user {
-  text-align: center;
-  width: 500px;
-}
-
-.modal-default-button {
-  float: right;
-}
-
 label {
   display: block;
   margin-top: 10px;

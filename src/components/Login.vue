@@ -99,6 +99,10 @@ export default class Login extends Vue {
             (error) => {
               this.loading = false;
               this.message = "Username Or Password not correct!";
+              this.$notify.error({
+                title: 'Error',
+                message: 'Username Or Password not correct!'
+              });
             }
         );
       }

@@ -49,20 +49,33 @@
     <div style="max-width: 100%">
       <router-view />
     </div>
+    <el-footer  class="footer-page" style="background-color: #0b78e5!important; height: 200px">
+      <el-row>
+        <el-col :span="8"><div class="grid-content ">
+          footer 1
+        </div></el-col>
+        <el-col :span="8"><div class="grid-content ">
+          footer 2
+        </div></el-col>
+        <el-col :span="8"><div class="grid-content ">
+          footer 3
+        </div></el-col>
+      </el-row>
+    </el-footer>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { namespace } from "vuex-class";
-import { BootstrapVue, BIcon, BIconArrowUp, BIconArrowDown ,BIconThreeDotsVertical} from "bootstrap-vue"
+import { BootstrapVue} from "bootstrap-vue"
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 const Auth = namespace("Auth");
 
 Vue.use(BootstrapVue)
-Vue.component('BIcon', BIcon)
-Vue.component('BIconArrowUp', BIconArrowUp)
-Vue.component('BIconArrowDown', BIconArrowDown)
-Vue.component('BIconThreeDotsVertical', BIconThreeDotsVertical)
+Vue.use(ElementUI);
+
 
 @Component
 export default class App extends Vue {
@@ -86,3 +99,15 @@ export default class App extends Vue {
   }
 }
 </script>
+<style>
+.footer-page {
+  background: #F7F9FC;
+  padding-top: 3.75rem;
+}
+.footer-page .image-bg-footer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+</style>

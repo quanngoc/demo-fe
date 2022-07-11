@@ -1,194 +1,175 @@
 <template>
   <div class="container">
-    <span >Username</span>
-    <input
-        v-model="params.userName"
-        type="text"
-        name="username"
-        style="width: 250px; border-radius: 6px;margin-right: 10px;margin-top: 10px;margin-left: 10px;"
-    />
-
-    <span >Email</span>
-    <input
-        v-model="params.email"
-        type="text"
-        name="email"
-        style="width: 250px; border-radius: 6px;margin-right: 10px;margin-top: 10px;margin-left: 10px;"
-    />
-    <button type="submit" @click="search"  style="background-color: #3c93f1;border-radius: 5px;border: 1px;width: 90px">Search</button>
-
-
-
     <div>
-      <button class="modal-default-button" @click="exportExcel" style="background-color: #f7cd50;border-radius: 5px;border: 1px;">
-        Export Excel
-      </button>
+      <el-input placeholder="User Name" type="text"
+                name="username" v-model="params.userName"
+                style="width: 250px; border-radius: 6px;margin-right: 10px;margin-top: 10px;margin-left: 10px;">
+      </el-input>
+
+      <el-input placeholder="Email" type="text"
+                name="username" v-model="params.email"
+                style="width: 250px; border-radius: 6px;margin-right: 10px;margin-top: 10px;margin-left: 10px;">
+
+      </el-input>
+      <el-button type="primary" @click="searchUser">Search</el-button>
+      <el-button type="warning" @click="exportExcel" style="float: right; margin-top: 12px">Export Excel</el-button>
     </div>
+    <br>
 
-    <div>
-      <table class="table" id="datatable">
-        <thead>
-        <tr>
-          <th>ID</th>
-          <th>UserName</th>
-          <th>Email</th>
-          <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr v-for="item in content" :key="item.id">
-          <td>{{ item.id }}</td>
-          <td>{{ item.username }}</td>
-          <td>{{ item.email }}</td>
-          <td>
-            <div class="h3 mb-0">
-            <b-dropdown id="dropdown-1" text="Action" class="m-md-2">
-              <b-dropdown-item id="show-btn" @click="showModal(item)">Reset Password</b-dropdown-item>
-              <b-dropdown-item  id="show-btn" @click="showDetail(item)">View Detail</b-dropdown-item>
-              <b-dropdown-item  id="show-btn" @click="showRoles(item)" >Update Role</b-dropdown-item>
-              <b-dropdown-item  id="show-btn" @click="exportPDF(item)" >Export PDF</b-dropdown-item>
-            </b-dropdown>
-          </div>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
+    <el-table :data="this.content" style="width: 100%" max-height="1250">
+      <el-table-column fixed prop="id" label="ID"/>
+      <el-table-column label="PDF">
+        <template #default="scope">
+          <el-tooltip content="Export PDF" placement="top">
+            <i class="el-icon-picture" @click="exportPDF(scope.row)" style="margin-right: 20px;font-size: 20px"></i>
+          </el-tooltip>
+        </template>
+      </el-table-column>
+      <el-table-column prop="username" label="User Name"/>
+      <el-table-column prop="email" label="Email"/>
+      <el-table-column fixed="right" label="Operations">
+        <template #default="scope">
+          <el-tooltip content="View Detail" placement="top">
+            <i class="el-icon-user" @click="showDetail(scope.row)" style="margin-right: 20px;font-size: 20px"></i>
+          </el-tooltip>
+          <el-tooltip content="Reset Password" placement="top">
+            <i class="el-icon-refresh-left" @click="showModal(scope.row)"
+               style="margin-right: 20px;font-size: 20px"></i>
+          </el-tooltip>
+          <el-tooltip v-if="scope.row.roles[0] != 'ROLE_ADMIN'" content="Update Role" placement="top">
+            <i class="el-icon-edit" @click="editRole(scope.row)" style="margin-right: 20px;font-size: 20px"></i>
+          </el-tooltip>
+        </template>
+      </el-table-column>
+    </el-table>
+    <br>
+    <el-pagination
+        background
+        layout=" prev, pager, next"
+        :current-page="this.currentPage"
+        @current-change="handleCurrentChange"
+        :total=this.totalElements>
+    </el-pagination>
+
+    <el-dialog
+        :visible.sync="resetPassword"
+        width="30%"
+        center>
+
+      <div style="margin-bottom: 20px">
+        Bạn có đồng ý đặt lại mật khẩu mặc định ?
+      </div>
+      <div class="modal-footer">
+        <slot name="footer">
+          <el-button @click="hideModal" type="danger">Close</el-button>
+        </slot>
+        <slot name="footer">
+          <el-button type="success" @click="submitResetPassword">OK</el-button>
+        </slot>
+      </div>
+    </el-dialog>
+
+    <el-dialog
+        title="View Detail"
+        :visible.sync="viewDetail"
+        width="30%"
+        center>
+      <div>
+        <span style="padding-right: 123px;">ID is:</span>
+        <el-input placeholder="user name" type="text" disabled
+                  name="username" v-model="userModel.id"
+                  style="width: 250px; border-radius: 6px;margin-right: 105px;margin-top: 10px;margin-left: 10px;"></el-input>
+        <span style="padding-right: 46px;">UserName is:</span>
+        <el-input placeholder="user name" type="text" disabled
+                  name="username" v-model="userModel.username"
+                  style="width: 250px; border-radius: 6px;margin-right: 107px;margin-top: 10px;margin-left: 35px;"></el-input>
+        <span style="padding-right: 103px;">Email is:</span>
+        <el-input placeholder="user name" type="text" disabled
+                  name="username" v-model="userModel.email"
+                  style="width: 250px; border-radius: 6px;margin-right: 103px;margin-top: 10px;margin-left: 10px;"></el-input>
+      </div>
+      <br>
+      <div class="modal-footer">
+        <slot name="footer">
+          <el-button @click="hideModal" type="danger">Close</el-button>
+        </slot>
+        <slot name="footer">
+          <el-button type="success" @click="hideModal">OK</el-button>
+        </slot>
+      </div>
+    </el-dialog>
 
 
-    <div v-if="showModel">
-      <transition name="modal">
-        <div class="modal-mask">
-          <div class="modal-wrapper">
-            <div class="modal-container">
+    <el-dialog
+        title="Update Role"
+        :visible.sync="showRole"
+        width="30%"
+        center>
+      <div>
+        <span style="padding-right: 123px;">ID is:</span>
+        <el-input placeholder="user name" type="text" disabled
+                  name="username" v-model="userModel.id"
+                  style="width: 250px; border-radius: 6px;margin-right: 105px;margin-top: 10px;margin-left: 10px;"></el-input>
+        <span style="padding-right: 46px;">UserName is:</span>
+        <el-input placeholder="user name" type="text" disabled
+                  name="username" v-model="userModel.username"
+                  style="width: 250px; border-radius: 6px;margin-right: 107px;margin-top: 10px;margin-left: 35px;"></el-input>
+        <span style="padding-right: 103px;">Email is:</span>
+        <el-input placeholder="user name" type="text" disabled
+                  name="username" v-model="userModel.email"
+                  style="width: 250px; border-radius: 6px;margin-right: 103px;margin-top: 10px;margin-left: 10px;"></el-input>
+        <span style="padding-right: 85px;margin-left: 5px;">Role is:</span>
 
-              <div class="modal-header">
-                <slot name="header">
-                  Bạn có đồng ý đặt lại mật khẩu mặc định ?
-                </slot>
-              </div>
+        <el-select style="width: 250px; margin-top: 7px; margin-left: 27px;" v-model="value" placeholder="Select">
+          <el-option
+              v-for="item in this.roles"
+              :key="item.value"
+              :value="item.value">
+          </el-option>
+        </el-select>
 
-              <div class="modal-footer">
-                <slot name="footer">
-                  <button class="modal-default-button" @click="hideModal" style="background-color: #f70b0b;border-radius: 5px;border: 1px;">
-                    Close
-                  </button>
-                </slot>
-                <slot name="footer">
-                  <button class="modal-default-button" @click="submitResetpassword" style="background-color: #2c8df5;border-radius: 5px;border: 1px;">
-                    OK
-                  </button>
-                </slot>
-              </div>
-            </div>
-          </div>
-        </div>
-      </transition>
-    </div>
+      </div>
+      <br>
+      <div class="modal-footer">
+        <slot name="footer">
+          <el-button @click="hideModal" type="danger">Close</el-button>
+        </slot>
+        <slot name="footer">
+          <el-button type="success" @click="updateRole">OK</el-button>
+        </slot>
+      </div>
+    </el-dialog>
 
-    <div v-if="viewDetail">
-      <transition name="modal">
-        <div class="modal-mask">
-          <div class="modal-wrapper">
-            <div class="modal-container">
-
-              <div >
-                <span style="padding-right: 70px;">ID is:</span>
-                <input style="margin-block: 10px;" v-model="userModel.id" disabled/><br>
-                <span style="padding-right: 10px;">UserName is:</span>
-                <input style="margin-block: 10px;" v-model="userModel.username" disabled/><br>
-                <span style="padding-right: 47px;" >Email is:</span>
-                <input style="margin-block: 10px;" v-model="userModel.email" disabled/><br>
-              </div>
-
-              <div class="modal-footer">
-                <slot name="footer">
-                  <button class="modal-default-button" @click="hideModal" style="background-color: #f70b0b;border-radius: 5px;border: 1px;">
-                    Close
-                  </button>
-                </slot>
-                <slot name="footer">
-                  <button class="modal-default-button" @click="hideModal" style="background-color: #2c8df5;border-radius: 5px;border: 1px;">
-                    OK
-                  </button>
-                </slot>
-              </div>
-            </div>
-          </div>
-        </div>
-      </transition>
-    </div>
-
-    <div v-if="showRole">
-      <transition name="modal">
-        <div class="modal-mask">
-          <div class="modal-wrapper">
-            <div class="modal-container">
-
-              <div >
-                <span style="padding-right: 70px;">ID is:</span>
-                <input style="margin-block: 10px;" v-model="userModel.id"  disabled/><br>
-                <span style="padding-right: 10px;">UserName is:</span>
-                <input style="margin-block: 10px;" v-model="userModel.username" disabled/><br>
-                <span style="padding-right: 47px;" >Email is:</span>
-                <input style="margin-block: 10px;" v-model="userModel.email"  disabled/><br>
-                <span style="padding-right: 70px;">Role is:</span>
-                <select class="form-control" :required="true">
-                  <option
-                      v-for="option in roles"
-                      v-bind:value="option.name"
-                  >{{ option.name }}</option>
-                </select>
-                <input style="margin-block: 10px;" v-model="userModel.roles" placeholder="edit me" /><br>
-                <select class="form-control" v-model="selected" >
-                  <option v-for="item in roles" :value="item" :key="item.name">
-                    {{ item.name }}
-                  </option>
-                </select>
-              </div>
-
-              <div class="modal-footer">
-                <slot name="footer">
-                  <button class="modal-default-button" @click="hideModal" style="background-color: #f70b0b;border-radius: 5px;border: 1px;">
-                    Close
-                  </button>
-                </slot>
-                <slot name="footer">
-                  <button class="modal-default-button" @click="hideModal" style="background-color: #2c8df5;border-radius: 5px;border: 1px;">
-                    OK
-                  </button>
-                </slot>
-              </div>
-            </div>
-          </div>
-        </div>
-      </transition>
-    </div>
 
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import {Component, Vue} from "vue-property-decorator";
 import UserService from "@/services/UserService";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {namespace} from "vuex-class";
+
 const Auth = namespace("Auth");
 
 @Component
 export default class AdminBoard extends Vue {
-  private content = "";
-  private showModel = false;
+  private content = [];
+  private resetPassword = false;
   private viewDetail = false;
   private showRole = false;
-  private userModel: any = { id:"", username: "", email: "", password: "", roles: "" };
-  private roles: any = [{name:"ROLE_USER"},{name:"ROLE_ADMIN"}]
-  pageSize: number = 20;
+  private userModel: any = {id: "", username: "", email: "", password: "", role: ""};
+  private totalElements = null;
+  roles: any = [{value: "ROLE_USER"}, {value: "ROLE_ADMIN"}];
+  value = "";
+
   params: any = {
     userName: null,
     email: null,
     page: 0
   };
+  currentPage = 1;
+
   @Auth.Action
   private signOut!: () => void;
 
@@ -199,45 +180,55 @@ export default class AdminBoard extends Vue {
     UserService.getAdminBoard().then(
         (response) => {
           this.content = response.data.content;
+          this.totalElements = response.data.totalElements;
         },
         (error) => {
           this.content =
               (error.response && error.response.data && error.response.data.message) ||
               error.message ||
               error.toString();
+          this.$notify.error({
+            title: 'Error',
+            message: error.response.data.message
+          });
         }
     );
   }
 
-  showModal(item:any) {
-    this.showModel = true;
+  showModal(item: any) {
+    this.resetPassword = true;
     this.userModel = item;
   }
 
-  showDetail(item:any) {
+  showDetail(item: any) {
     this.viewDetail = true;
     this.userModel = item;
   }
 
-  showRoles(item:any) {
+  editRole(item: any) {
     this.showRole = true;
     this.userModel = item;
+    this.value = item.roles[0];
   }
 
   hideModal() {
-    this.showModel = false;
+    this.resetPassword = false;
     this.viewDetail = false;
     this.showRole = false;
   }
 
-  submitResetpassword() {
-    this.showModel = false;
-    console.log(this.userModel);
+  submitResetPassword() {
+    this.resetPassword = false;
     UserService.resetPassword(this.userModel.id).then(
         (response) => {
           this.content = response.data.content;
           if (this.userModel.id != this.currentUser.id) {
             this.$router.push("/home");
+            this.$notify({
+              title: 'Success',
+              message: 'This is a success message',
+              type: 'success'
+            });
           } else {
             this.signOut();
             this.$router.push("/login");
@@ -249,20 +240,79 @@ export default class AdminBoard extends Vue {
               (error.response && error.response.data && error.response.data.message) ||
               error.message ||
               error.toString();
+          this.$notify.error({
+            title: 'Error',
+            message: error.response.data.message
+          });
         }
     );
   }
 
-  exportPDF(data:any) {
-  UserService.downloadFilePDF(data.id);
-
+  exportPDF(data: any) {
+    UserService.downloadFilePDF(data.id, data.username);
   }
 
   exportExcel() {
     UserService.downloadFileExcel();
   }
 
+  handleCurrentChange(val: any) {
+    let query = Object.assign({}, this.params);
+    Object.keys(query).forEach(key => {
+      if (query[key] == null || query[key] == '') {
+        delete query[key];
+      }
+    });
+    query['page'] = query['page'] - 1;
+    this.params.page = val - 1;
+    this.search();
+  }
+
   search() {
+    UserService.search(this.params).then(
+        (response) => {
+          this.content = response.data.content;
+          this.totalElements = response.data.totalElements;
+        },
+        (error) => {
+          this.content =
+              (error.response && error.response.data && error.response.data.message) ||
+              error.message ||
+              error.toString();
+          this.$notify.error({
+            title: 'Error',
+            message: error.response.data.message
+          });
+        }
+    );
+  }
+
+  updateRole() {
+    this.userModel.role = this.value;
+    UserService.updateRole(this.userModel).then(
+        (response) => {
+          this.content = response.data.content;
+          this.$router.push("/home");
+          this.$notify({
+            title: 'Success',
+            message: 'This is a success message',
+            type: 'success'
+          });
+        },
+        (error) => {
+          this.content =
+              (error.response && error.response.data && error.response.data.message) ||
+              error.message ||
+              error.toString();
+          this.$notify.error({
+            title: 'Error',
+            message: error.response.data.message
+          });
+        }
+    );
+  }
+
+  searchUser() {
     let query = Object.assign({}, this.params);
     Object.keys(query).forEach(key => {
       if (query[key] == null || query[key] == '') {
@@ -271,64 +321,14 @@ export default class AdminBoard extends Vue {
     });
     query['page'] = query['page'] - 1;
 
-    UserService.search(this.params).then(
-        (response) => {
-          this.content = response.data.content;
-        },
-        (error) => {
-          this.content =
-              (error.response && error.response.data && error.response.data.message) ||
-              error.message ||
-              error.toString();
-        }
-    );
+    this.search();
   }
 }
 </script>
 
 <style>
-.modal-mask {
-  position: fixed;
-  z-index: 9998;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: table;
-  transition: opacity 0.3s ease;
-}
-
-.modal-wrapper {
-  display: table-cell;
-  vertical-align: middle;
-}
-
-.modal-container {
-  width: 500px;
-  margin: 0px auto;
-  padding: 20px 30px;
-  background-color: #fff;
-  border-radius: 2px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
-  transition: all 0.3s ease;
-  font-family: Helvetica, Arial, sans-serif;
-  border-radius: 10px;
-}
-
 .modal-header h3 {
   margin-top: 0;
   color: #42b983;
 }
-
-.modal-default-button {
-  float: right;
-}
-
-.modal-enter .modal-container,
-.modal-leave-active .modal-container {
-  -webkit-transform: scale(1.1);
-  transform: scale(1.1);
-}
-
 </style>

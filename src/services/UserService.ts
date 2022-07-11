@@ -14,12 +14,12 @@ class UserService {
     }
 
     resetPassword(id: any) {
-        headers: console.log(authHeader());
         return axios.put(API_URL + 'user/reset-password/' + id,{}, {headers: authHeader()});
     }
 
     updateRole(data: any) {
-        return axios.put(API_URL + 'user/update-role/' + data.id, {headers: authHeader(), data});
+        console.log(data);
+        return axios.put(API_URL + 'user/update-role/' + data.id, data, {headers: authHeader()});
     }
 
     changePassword(data: any) {
@@ -32,7 +32,7 @@ class UserService {
         return axios.get(API_URL + 'user',  {params, headers: authHeader()});
     }
 
-    downloadFilePDF(id: any) {
+    downloadFilePDF(id: any, username: any) {
         return axios.get(API_URL + 'user/export-pdf/' + id, {
             responseType: 'arraybuffer',
             headers: authHeader()
@@ -41,7 +41,7 @@ class UserService {
                 let blob = new Blob([response.data], {type: 'application/pdf'})
                 let link = document.createElement('a')
                 link.href = window.URL.createObjectURL(blob)
-                link.download = 'user.pdf'
+                link.download = username + '.pdf'
                 link.click()
             })
     }
@@ -52,11 +52,11 @@ class UserService {
             headers: authHeader()
         })
             .then(response => {
-                console.log(response);
+                var formatted_date = new Date().toJSON().slice(0,10).replace(/-/g,'-');
                 let blob = new Blob([response.data], {type: 'application/vnd.ms-excel'})
                 let link = document.createElement('a')
                 link.href = window.URL.createObjectURL(blob)
-                link.download = 'user.xlsx'
+                link.download = "all-user-" + formatted_date + '.xlsx'
                 link.click()
             })
     }
