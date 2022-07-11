@@ -1,0 +1,44 @@
+{
+  "name": "newwave",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
+  },
+  "dependencies": {
+    "@coreui/icons": "^2.1.0",
+    "@fortawesome/fontawesome-svg-core": "^1.2.30",
+    "@fortawesome/free-solid-svg-icons": "^5.14.0",
+    "@fortawesome/vue-fontawesome": "^2.0.0",
+    "axios": "^0.20.0",
+    "bootstrap": "^4.5.2",
+    "bootstrap-vue": "^2.22.0",
+    "core-js": "^3.6.5",
+    "jquery": "^3.5.1",
+    "material-design-icons-iconfont": "^6.7.0",
+    "popper.js": "^1.16.1",
+    "vee-validate": "^2.2.15",
+    "vue": "^2.6.11",
+    "vue-class-component": "^7.2.3",
+    "vue-materialize-datatable": "^1.0.4",
+    "vue-property-decorator": "^8.4.2",
+    "vue-router": "^3.4.3",
+    "vuex": "^3.5.1",
+    "vuex-class": "^0.3.2",
+    "vuex-module-decorators": "^0.17.0",
+    "vueye-table": "^1.4.1"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^4.5.0",
+    "@vue/cli-plugin-typescript": "^4.5.0",
+    "@vue/cli-service": "^4.5.0",
+    "typescript": "~3.9.3",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
