@@ -47,16 +47,30 @@
         <div class="grid-content"></div>
       </el-col>
     </el-row>
-
-    <div style="padding: 70px">
-      <el-steps :active="1">
-        <el-step title="Step 1" icon="el-icon-user"></el-step>
-        <el-step title="Step 2" icon="el-icon-user"></el-step>
-        <el-step title="Step 3" icon="el-icon-user"></el-step>
-        <el-step title="Step 4" icon="el-icon-user"></el-step>
-      </el-steps>
-    </div>
+    <el-footer class="footer-page" style="background-color: #f7fbfd!important; height: 250px; margin-top: 150px">
+      <el-row>
+        <el-col :span="8">
+          <div class="grid-content " style="text-align: center">
+            <h2 class="text-style">About</h2>
+            <p><a href="https://newwave.vn/contact/" target="_blank">- Contact</a></p>
+            <p><a href="https://github.com/quanngoc/newwave-fe" target="_blank">- GitHub</a></p>
+          </div>
+        </el-col>
+        <el-col :span="8">
+          <div class="grid-content ">
+            <h2 class="text-style">Contact Us</h2>
+            <p><a href="https://newwave.vn/contact/" target="_blank">- Contact</a></p>
+            <p><a href="https://newwave.vn/blog/" target="_blank">- Blog</a></p>
+          </div>
+        </el-col>
+        <el-col :span="8">
+          <div class="grid-content ">
+          </div>
+        </el-col>
+      </el-row>
+    </el-footer>
   </div>
+
 </template>
 
 <script lang="ts">
@@ -75,67 +89,9 @@ label {
   display: block;
   margin-top: 10px;
 }
-.footer-page {
-  background: #F7F9FC;
-  padding-top: 3.75rem;
-}
-.row {
-  display: flex;
-  flex-wrap: wrap;
-  margin-right: -15px;
-  margin-left: -15px;
-}
-
-.our-offices-contact {
-  padding: 5.625rem 0;
-  font-size: 1rem;
-  line-height: 1.5rem;
-}
-
-.our-offices-contact .office-address {
-  margin-left: -10px;
-  margin-right: -10px;
-}
-
-our-offices-contact .office-address .office-item {
-  padding-left: 10px;
-  padding-right: 10px;
-  position: relative;
-}
-
-.our-offices-contact .office-address .img-office {
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.our-offices-contact .office-address .group-text-ft {
-  position: absolute;
-  font-size: 14px;
-  line-height: 17px;
-  font-weight: 700;
-  bottom: 1.75rem;
-  left: 0;
-  right: 0;
-}
 
 .info-recruit {
   margin-bottom: 2.1875rem;
-}
-
-.el-col {
-  border-radius: 4px;
-}
-
-.bg-purple-dark {
-  background: #99a9bf;
-}
-
-.bg-purple {
-  background: #d3dce6;
-}
-
-.bg-purple-light {
-  background: #e5e9f2;
 }
 
 .grid-content {
@@ -162,7 +118,16 @@ our-offices-contact .office-address .office-item {
   -webkit-text-fill-color: transparent;
   width: max-content;
 }
-.is-selected {
-  color: #1989FA;
+
+.footer-page {
+  background: #F7F9FC;
+  padding-top: 3.75rem;
+}
+
+.text-style {
+  background: linear-gradient(45deg, #01c0ea 20%, #2991f7 100%, #9fd0ff 20%);
+  background: -webkit-linear-gradient(45deg, #01c0ea 20%, #2991f7 100%, #9fd0ff 20%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 </style>
