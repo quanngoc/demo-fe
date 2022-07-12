@@ -54,43 +54,15 @@
     <div style="max-width: 100%">
       <router-view/>
     </div>
-<!--    <el-footer class="footer-page" style="background-color: #f7fbfd!important; height: 250px; margin-top: 150px">-->
-<!--      <el-row>-->
-<!--        <el-col :span="8">-->
-<!--          <div class="grid-content " style="text-align: center">-->
-<!--            <h2 class="text-style">About</h2>-->
-<!--            <p><a href="https://newwave.vn/contact/" target="_blank">- Contact</a></p>-->
-<!--            <p><a href="https://github.com/quanngoc/newwave-fe" target="_blank">- GitHub</a></p>-->
-<!--          </div>-->
-<!--        </el-col>-->
-<!--        <el-col :span="8">-->
-<!--          <div class="grid-content ">-->
-<!--            <h2 class="text-style">Contact Us</h2>-->
-<!--            <p><a href="https://newwave.vn/contact/" target="_blank">- Contact</a></p>-->
-<!--            <p><a href="https://newwave.vn/blog/" target="_blank">- Blog</a></p>-->
-<!--          </div>-->
-<!--        </el-col>-->
-<!--        <el-col :span="8">-->
-<!--          <div class="grid-content ">-->
-<!--          </div>-->
-<!--        </el-col>-->
-<!--      </el-row>-->
-<!--    </el-footer>-->
   </div>
 </template>
 
 <script lang="ts">
 import {Component, Vue} from "vue-property-decorator";
 import {namespace} from "vuex-class";
-import {BootstrapVue} from "bootstrap-vue"
-import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 
 const Auth = namespace("Auth");
-
-Vue.use(BootstrapVue)
-Vue.use(ElementUI);
-
 
 @Component
 export default class App extends Vue {
@@ -115,15 +87,25 @@ export default class App extends Vue {
 }
 </script>
 <style>
-.footer-page {
-  background: #F7F9FC;
-  padding-top: 3.75rem;
+.profile-img-card {
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 10px;
+  display: block;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
 }
-
-.text-style {
-  background: linear-gradient(45deg, #01c0ea 20%, #2991f7 100%, #9fd0ff 20%);
-  background: -webkit-linear-gradient(45deg, #01c0ea 20%, #2991f7 100%, #9fd0ff 20%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.card {
+  background-color: #f7f7f7;
+  padding: 20px 25px 30px;
+  margin: 0 auto 25px;
+  margin-top: 50px;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
 }
 </style>

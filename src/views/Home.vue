@@ -1,8 +1,5 @@
 <template>
   <div class="title-content">
-    <!--    <header style="text-align: center ; background-color: rgb(203 222 241);">-->
-    <!--      <img src="https://assets.topdev.vn/images/2022/06/21/TopDev-logo2-HienLeMinh-1655775044.png">-->
-    <!--    </header>-->
     <p class="text-top"></p>
     <el-row :gutter="10">
       <el-col :xs="8" :sm="6" :md="4" :lg="3" :xl="1">
@@ -15,15 +12,11 @@
             <span class="black-text">Newwave Solutions</span>
           </h2>
           <div class="info-recruit">
-            <p>
-              Newwave Solutions là một trong những công ty IT outsourcing hàng đầu cung cấp các dịch vụ công nghệ thông
-              tin với
+            <p>Newwave Solutions là một trong những công ty IT outsourcing hàng đầu cung cấp các dịch vụ công nghệ thông tin với
               <b>10+ năm kinh nghiệm</b> và
               <b>300+ nhân viên </b>
             </p>
-            <p>
-              Với tầm nhìn cung cấp những giải pháp phát triển phần mềm và chuyển đổi số để tối ưu hoá quy trình sản
-              xuất,
+            <p>Với tầm nhìn cung cấp những giải pháp phát triển phần mềm và chuyển đổi số để tối ưu hoá quy trình sản xuất,
               kinh doanh của các công ty, doanh nghiệp trên toàn thế giới với chi phí hợp lý và hiệu quả cao, chúng tôi
               cung cấp đa dạng các dịch vụ như:
             </p>
@@ -47,10 +40,10 @@
         <div class="grid-content"></div>
       </el-col>
     </el-row>
-    <el-footer class="footer-page" style="background-color: #f7fbfd!important; height: 250px; margin-top: 150px">
+    <el-footer class="footer-page">
       <el-row>
         <el-col :span="8">
-          <div class="grid-content " style="text-align: center">
+          <div class="grid-content text-center">
             <h2 class="text-style">About</h2>
             <p><a href="https://newwave.vn/contact/" target="_blank">- Contact</a></p>
             <p><a href="https://github.com/quanngoc/newwave-fe" target="_blank">- GitHub</a></p>
@@ -78,11 +71,9 @@ import {Component, Vue} from "vue-property-decorator";
 
 @Component
 export default class Home extends Vue {
-  private content = "Welcome to newwave";
 
-  mounted() {
-  }
 }
+
 </script>
 <style scoped>
 label {
@@ -120,7 +111,9 @@ label {
 }
 
 .footer-page {
-  background: #F7F9FC;
+  background-color: #f7fbfd!important;
+  height: 250px!important;
+  margin-top: 150px;
   padding-top: 3.75rem;
 }
 

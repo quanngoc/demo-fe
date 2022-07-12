@@ -1,5 +1,5 @@
 import { VuexModule, Module, Mutation, Action } from 'vuex-module-decorators';
-import AuthService from '@/services/AuthService';
+import AuthService from '@/services/auth-service';
 
 const storedUser = localStorage.getItem('user');
 

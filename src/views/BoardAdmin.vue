@@ -1,27 +1,27 @@
 <template>
   <div class="container">
     <div>
+
+      <BaseInput label="Username" type="text" placeholder="Username" />
       <el-input placeholder="User Name" type="text"
                 name="username" v-model="params.userName"
-                style="width: 250px; border-radius: 6px;margin-right: 10px;margin-top: 10px;margin-left: 10px;">
+                class="text-search">
       </el-input>
-
       <el-input placeholder="Email" type="text"
                 name="username" v-model="params.email"
-                style="width: 250px; border-radius: 6px;margin-right: 10px;margin-top: 10px;margin-left: 10px;">
+                class="text-search">
 
       </el-input>
       <el-button type="primary" @click="searchUser">Search</el-button>
-      <el-button type="warning" @click="exportExcel" style="float: right; margin-top: 12px">Export Excel</el-button>
+      <el-button type="warning" @click="exportExcel" class="export-excel">Export Excel</el-button>
     </div>
     <br>
-
-    <el-table :data="this.content" style="width: 100%" max-height="1250">
+    <el-table :data="this.content" class="table-width">
       <el-table-column fixed prop="id" label="ID"/>
       <el-table-column label="PDF">
         <template #default="scope">
           <el-tooltip content="Export PDF" placement="top">
-            <i class="el-icon-picture" @click="exportPDF(scope.row)" style="margin-right: 20px;font-size: 20px"></i>
+            <i class="el-icon-picture icons-size" @click="exportPDF(scope.row)"></i>
           </el-tooltip>
         </template>
       </el-table-column>
@@ -30,33 +30,24 @@
       <el-table-column fixed="right" label="Operations">
         <template #default="scope">
           <el-tooltip content="View Detail" placement="top">
-            <i class="el-icon-user" @click="showDetail(scope.row)" style="margin-right: 20px;font-size: 20px"></i>
+            <i class="el-icon-user icons-size" @click="showDetail(scope.row)"></i>
           </el-tooltip>
           <el-tooltip content="Reset Password" placement="top">
-            <i class="el-icon-refresh-left" @click="showModal(scope.row)"
-               style="margin-right: 20px;font-size: 20px"></i>
+            <i class="el-icon-refresh-left icon-tooltip" @click="showModal(scope.row)"></i>
           </el-tooltip>
-          <el-tooltip v-if="scope.row.roles[0] != 'ROLE_ADMIN'" content="Update Role" placement="top">
-            <i class="el-icon-edit" @click="editRole(scope.row)" style="margin-right: 20px;font-size: 20px"></i>
+          <el-tooltip v-if="scope.row.roles[0] != ROLE_ADMIN" content="Update Role" placement="top">
+            <i class="el-icon-edit icons-size" @click="editRole(scope.row)"></i>
           </el-tooltip>
         </template>
       </el-table-column>
     </el-table>
     <br>
-    <el-pagination
-        background
-        layout=" prev, pager, next"
-        :current-page="this.currentPage"
+    <el-pagination background layout=" prev, pager, next" :current-page="this.currentPage"
         @current-change="handleCurrentChange"
         :total=this.totalElements>
     </el-pagination>
-
-    <el-dialog
-        :visible.sync="resetPassword"
-        width="30%"
-        center>
-
-      <div style="margin-bottom: 20px">
+    <el-dialog :visible.sync="resetPassword" width="30%" center>
+      <div class="text-reset-pass">
         Bạn có đồng ý đặt lại mật khẩu mặc định ?
       </div>
       <div class="modal-footer">
@@ -69,24 +60,20 @@
       </div>
     </el-dialog>
 
-    <el-dialog
-        title="View Detail"
-        :visible.sync="viewDetail"
-        width="30%"
-        center>
-      <div>
-        <span style="padding-right: 123px;">ID is:</span>
+    <el-dialog title="View Detail" :visible.sync="viewDetail" width="30%" center>
+      <div class="user-form">
+        <span class="user-id">ID is:</span>
         <el-input placeholder="user name" type="text" disabled
                   name="username" v-model="userModel.id"
-                  style="width: 250px; border-radius: 6px;margin-right: 105px;margin-top: 10px;margin-left: 10px;"></el-input>
-        <span style="padding-right: 46px;">UserName is:</span>
+                  class="user-id-input"></el-input>
+        <span class="user-name">UserName is:</span>
         <el-input placeholder="user name" type="text" disabled
                   name="username" v-model="userModel.username"
-                  style="width: 250px; border-radius: 6px;margin-right: 107px;margin-top: 10px;margin-left: 35px;"></el-input>
-        <span style="padding-right: 103px;">Email is:</span>
+                  class="user-name-input"></el-input>
+        <span class="user-email">Email is:</span>
         <el-input placeholder="user name" type="text" disabled
                   name="username" v-model="userModel.email"
-                  style="width: 250px; border-radius: 6px;margin-right: 103px;margin-top: 10px;margin-left: 10px;"></el-input>
+                  class="user-email-input"></el-input>
       </div>
       <br>
       <div class="modal-footer">
@@ -99,35 +86,25 @@
       </div>
     </el-dialog>
 
-
-    <el-dialog
-        title="Update Role"
-        :visible.sync="showRole"
-        width="30%"
-        center>
-      <div>
-        <span style="padding-right: 123px;">ID is:</span>
-        <el-input placeholder="user name" type="text" disabled
-                  name="username" v-model="userModel.id"
-                  style="width: 250px; border-radius: 6px;margin-right: 105px;margin-top: 10px;margin-left: 10px;"></el-input>
-        <span style="padding-right: 46px;">UserName is:</span>
-        <el-input placeholder="user name" type="text" disabled
-                  name="username" v-model="userModel.username"
-                  style="width: 250px; border-radius: 6px;margin-right: 107px;margin-top: 10px;margin-left: 35px;"></el-input>
-        <span style="padding-right: 103px;">Email is:</span>
-        <el-input placeholder="user name" type="text" disabled
-                  name="username" v-model="userModel.email"
-                  style="width: 250px; border-radius: 6px;margin-right: 103px;margin-top: 10px;margin-left: 10px;"></el-input>
-        <span style="padding-right: 85px;margin-left: 5px;">Role is:</span>
-
-        <el-select style="width: 250px; margin-top: 7px; margin-left: 27px;" v-model="value" placeholder="Select">
+    <el-dialog title="Update Role" :visible.sync="showRole" width="30%" center>
+      <div class="user-form">
+        <span class="user-id">ID is:</span>
+        <el-input class="user-id-input" placeholder="id" type="text" disabled
+                  name="id" v-model="userModel.id"></el-input>
+        <span class="user-name">UserName is:</span>
+        <el-input class="user-name-input" placeholder="user name" type="text" disabled
+                  name="username" v-model="userModel.username"></el-input>
+        <span class="user-email">Email is:</span>
+        <el-input class="user-email-input" placeholder="user name" type="text" disabled
+                  name="username" v-model="userModel.email"></el-input>
+        <span class="user-role">Role is:</span>
+        <el-select class="user-role-select" v-model="value" placeholder="Select">
           <el-option
               v-for="item in this.roles"
               :key="item.value"
               :value="item.value">
           </el-option>
         </el-select>
-
       </div>
       <br>
       <div class="modal-footer">
@@ -140,13 +117,12 @@
       </div>
     </el-dialog>
 
-
   </div>
 </template>
 
 <script lang="ts">
 import {Component, Vue} from "vue-property-decorator";
-import UserService from "@/services/UserService";
+import UserService from "@/services/user-service";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {namespace} from "vuex-class";
 
@@ -162,6 +138,7 @@ export default class AdminBoard extends Vue {
   private totalElements = null;
   roles: any = [{value: "ROLE_USER"}, {value: "ROLE_ADMIN"}];
   value = "";
+  ROLE_ADMIN = "ROLE_ADMIN";
 
   params: any = {
     userName: null,
@@ -266,6 +243,7 @@ export default class AdminBoard extends Vue {
     query['page'] = query['page'] - 1;
     this.params.page = val - 1;
     this.search();
+
   }
 
   search() {
@@ -323,12 +301,98 @@ export default class AdminBoard extends Vue {
 
     this.search();
   }
+
+  navigateParamsToUrl(params: any) {
+    console.log(this.params);
+    let queryParams = Object.assign(params, this.params);
+    Object.keys(queryParams).forEach((key) => {
+      if ((queryParams[key] == null || queryParams[key] == '' || (key == 'page' && queryParams['page'] <= 1))) {
+        delete queryParams[key];
+      }
+    });
+    console.log(queryParams);
+    this.$router.push({path: '/admin', query: queryParams});
+  }
 }
 </script>
 
 <style>
-.modal-header h3 {
-  margin-top: 0;
-  color: #42b983;
+.text-search {
+  width: 250px;
+  border-radius: 6px;
+  margin-right: 10px;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+.export-excel {
+  float: right;
+  margin-top: 12px
+}
+
+.table-width {
+  width: 100%;
+  max-height: 1250px
+}
+
+.icons-size {
+  margin-right: 20px;
+  font-size: 20px
+}
+
+.user-form .user-id {
+  padding-right: 123px;
+}
+
+.user-form .user-id-input {
+  width: 250px;
+  border-radius: 6px;
+  margin-right: 105px;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+.user-form .user-name {
+  padding-right: 46px;
+}
+
+.user-form .user-name-input {
+  width: 250px;
+  border-radius: 6px;
+  margin-right: 107px;
+  margin-top: 10px;
+  margin-left: 35px;
+}
+
+.user-form .user-email {
+  padding-right: 103px;
+}
+
+.user-form .user-email-input {
+  width: 250px;
+  border-radius: 6px;
+  margin-right: 103px;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+.user-form .user-role {
+  padding-right: 85px;
+  margin-left: 5px;
+}
+
+.user-form .user-role-select {
+  width: 252px;
+  margin-top: 7px;
+  margin-left: 27px;
+}
+
+.icon-tooltip {
+  margin-right: 20px;
+  font-size: 20px
+}
+
+.text-reset-pass {
+  margin-bottom: 20px
 }
 </style>

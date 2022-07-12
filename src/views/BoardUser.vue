@@ -14,10 +14,8 @@
                 v-validate="'required|min:3|max:20'"
                 type="text"
                 class="form-control"
-                name="username"
-            />
-            <div
-                v-if="submitted && errors.has('username')"
+                name="username"/>
+            <div v-if="submitted && errors.has('username')"
                 class="alert-danger">
               {{ errors.first("username") }}
             </div>
@@ -29,44 +27,33 @@
                 v-validate="'required|min:6|max:40'"
                 type="password"
                 class="form-control"
-                name="password"
-            />
-            <div
-                v-if="submitted && errors.has('password')"
-                class="alert-danger"
-            >
+                name="password"/>
+            <div v-if="submitted && errors.has('password')"
+                class="alert-danger">
               {{ errors.first("password") }}
             </div>
           </div>
           <div class="form-group">
             <label for="password">New Password</label>
-            <input
-                v-model="userModel.newPassword"
+            <input v-model="userModel.newPassword"
                 v-validate="'required|min:6|max:40'"
                 type="password"
                 class="form-control"
-                name="password"
-            />
-            <div
-                v-if="submitted && errors.has('password')"
-                class="alert-danger"
-            >
+                name="password"/>
+            <div v-if="submitted && errors.has('password')"
+                class="alert-danger">
               {{ errors.first("password") }}
             </div>
           </div>
           <div class="form-group">
             <label for="password">Confirm New Password</label>
-            <input
-                v-model="userModel.conNewPassword"
+            <input v-model="userModel.conNewPassword"
                 v-validate="'required|min:6|max:40'"
                 type="password"
                 class="form-control"
-                name="password"
-            />
-            <div
-                v-if="submitted && errors.has('password')"
-                class="alert-danger"
-            >
+                name="password"/>
+            <div v-if="submitted && errors.has('password')"
+                class="alert-danger">
               {{ errors.first("password") }}
             </div>
           </div>
@@ -75,12 +62,9 @@
           </div>
         </div>
       </form>
-
-      <div
-          v-if="message"
+      <div v-if="message"
           class="alert"
-          :class="successful ? 'alert-success' : 'alert-danger'"
-      >
+          :class="successful ? 'alert-success' : 'alert-danger'">
         {{ message }}
       </div>
     </div>
@@ -90,7 +74,7 @@
 
 <script lang="ts">
 import {Component, Vue} from "vue-property-decorator";
-import UserService from "@/services/UserService";
+import UserService from "@/services/user-service";
 import {namespace} from "vuex-class";
 
 const Auth = namespace("Auth");
@@ -98,13 +82,12 @@ const Auth = namespace("Auth");
 @Component
 export default class UserBoard extends Vue {
   private userModel: any = {id: "", username: "", email: "", oldPassword: "", newPassword: "", conNewPassword: ""};
-
-  @Auth.State("user")
-  private currentUser!: any;
-
   private submitted: boolean = false;
   private successful: boolean = false;
   private message: string = "";
+
+  @Auth.State("user")
+  private currentUser!: any;
 
   @Auth.Getter
   private isLoggedIn!: boolean;
@@ -159,6 +142,7 @@ export default class UserBoard extends Vue {
   }
 }
 </script>
+
 <style scoped>
 label {
   display: block;
@@ -168,28 +152,5 @@ label {
 .card-container.card {
   max-width: 350px !important;
   padding: 40px 40px;
-}
-
-.card {
-  background-color: #f7f7f7;
-  padding: 20px 25px 30px;
-  margin: 0 auto 25px;
-  margin-top: 50px;
-  -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
-  border-radius: 2px;
-  -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-}
-
-.profile-img-card {
-  width: 96px;
-  height: 96px;
-  margin: 0 auto 10px;
-  display: block;
-  -moz-border-radius: 50%;
-  -webkit-border-radius: 50%;
-  border-radius: 50%;
 }
 </style>
