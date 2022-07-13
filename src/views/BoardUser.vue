@@ -5,68 +5,57 @@
           id="profile-img"
           src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
           class="profile-img-card"/>
-      <form name="form" @submit.prevent="handleChangePassword">
-        <div v-if="!successful">
-          <div class="form-group">
-            <label for="username">Username</label>
-            <input
-                v-model="userModel.username"
-                v-validate="'required|min:3|max:20'"
-                type="text"
-                class="form-control"
-                name="username"/>
-            <div v-if="submitted && errors.has('username')"
-                class="alert-danger">
-              {{ errors.first("username") }}
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="password">Old Password</label>
-            <input
-                v-model="userModel.oldPassword"
-                v-validate="'required|min:6|max:40'"
-                type="password"
-                class="form-control"
-                name="password"/>
-            <div v-if="submitted && errors.has('password')"
-                class="alert-danger">
-              {{ errors.first("password") }}
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="password">New Password</label>
-            <input v-model="userModel.newPassword"
-                v-validate="'required|min:6|max:40'"
-                type="password"
-                class="form-control"
-                name="password"/>
-            <div v-if="submitted && errors.has('password')"
-                class="alert-danger">
-              {{ errors.first("password") }}
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="password">Confirm New Password</label>
-            <input v-model="userModel.conNewPassword"
-                v-validate="'required|min:6|max:40'"
-                type="password"
-                class="form-control"
-                name="password"/>
-            <div v-if="submitted && errors.has('password')"
-                class="alert-danger">
-              {{ errors.first("password") }}
-            </div>
-          </div>
-          <div class="form-group">
-            <button class="btn btn-primary btn-block">Change</button>
-          </div>
-        </div>
-      </form>
-      <div v-if="message"
-          class="alert"
-          :class="successful ? 'alert-success' : 'alert-danger'">
-        {{ message }}
-      </div>
+      <BaseForm formname="detail"></BaseForm>
+<!--      <form name="form" @submit.prevent="handleChangePassword">-->
+<!--        <div v-if="!successful">-->
+<!--          <div class="form-group">-->
+<!--            <label for="password">Old Password</label>-->
+<!--            <input-->
+<!--                v-model="userModel.oldPassword"-->
+<!--                v-validate="'required|min:6|max:40'"-->
+<!--                type="password"-->
+<!--                class="form-control"-->
+<!--                name="password"/>-->
+<!--            <div v-if="submitted && errors.has('password')"-->
+<!--                class="alert-danger">-->
+<!--              {{ errors.first("password") }}-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="form-group">-->
+<!--            <label for="password">New Password</label>-->
+<!--            <input v-model="userModel.newPassword"-->
+<!--                v-validate="'required|min:6|max:40'"-->
+<!--                type="password"-->
+<!--                class="form-control"-->
+<!--                name="password"/>-->
+<!--            <div v-if="submitted && errors.has('password')"-->
+<!--                class="alert-danger">-->
+<!--              {{ errors.first("password") }}-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="form-group">-->
+<!--            <label for="password">Confirm New Password</label>-->
+<!--            <input v-model="userModel.conNewPassword"-->
+<!--                v-validate="'required|min:6|max:40'"-->
+<!--                type="password"-->
+<!--                class="form-control"-->
+<!--                name="password"/>-->
+<!--            <div v-if="submitted && errors.has('password')"-->
+<!--                class="alert-danger">-->
+<!--              {{ errors.first("password") }}-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="form-group">-->
+<!--            <button class="btn btn-primary btn-block">Change</button>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </form>-->
+
+<!--      <div v-if="message"-->
+<!--          class="alert"-->
+<!--          :class="successful ? 'alert-success' : 'alert-danger'">-->
+<!--        {{ message }}-->
+<!--      </div>-->
     </div>
   </div>
 
@@ -76,10 +65,15 @@
 import {Component, Vue} from "vue-property-decorator";
 import UserService from "@/services/user-service";
 import {namespace} from "vuex-class";
+import BaseForm from "@/components/BaseForm.vue";
 
 const Auth = namespace("Auth");
 
-@Component
+@Component({
+  components: {
+    BaseForm
+  }
+})
 export default class UserBoard extends Vue {
   private userModel: any = {id: "", username: "", email: "", oldPassword: "", newPassword: "", conNewPassword: ""};
   private submitted: boolean = false;
@@ -114,10 +108,9 @@ export default class UserBoard extends Vue {
   handleChangePassword() {
     this.message = "";
     this.submitted = true;
-
     this.$validator.validate().then((isValid) => {
       if (isValid) {
-        console.log(this.userModel);
+
         UserService.changePassword(this.userModel).then(
             (data) => {
               this.successful = true;
@@ -150,7 +143,7 @@ label {
 }
 
 .card-container.card {
-  max-width: 350px !important;
+  max-width: 430px !important;
   padding: 40px 40px;
 }
 </style>

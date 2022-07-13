@@ -17,7 +17,6 @@ class UserService {
     }
 
     updateRole(data: any) {
-        console.log(data);
         return axios.put(API_URL + 'user/update-role/' + data.id, data, {});
     }
 

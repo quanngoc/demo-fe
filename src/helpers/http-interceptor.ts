@@ -2,6 +2,8 @@ import axios from 'axios';
 
 export default function setup() {
     const storedUser = localStorage.getItem('user');
+    if (storedUser == null ) return;
+
     let user = JSON.parse(storedUser ? storedUser : "");
 
     axios.interceptors.request.use(function(config) {

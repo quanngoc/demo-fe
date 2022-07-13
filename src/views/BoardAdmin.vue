@@ -1,8 +1,6 @@
 <template>
   <div class="container">
     <div>
-
-      <BaseInput label="Username" type="text" placeholder="Username" />
       <el-input placeholder="User Name" type="text"
                 name="username" v-model="params.userName"
                 class="text-search">
@@ -153,6 +151,7 @@ export default class AdminBoard extends Vue {
   @Auth.State("user")
   private currentUser!: any;
 
+
   mounted() {
     UserService.getAdminBoard().then(
         (response) => {
@@ -300,18 +299,6 @@ export default class AdminBoard extends Vue {
     query['page'] = query['page'] - 1;
 
     this.search();
-  }
-
-  navigateParamsToUrl(params: any) {
-    console.log(this.params);
-    let queryParams = Object.assign(params, this.params);
-    Object.keys(queryParams).forEach((key) => {
-      if ((queryParams[key] == null || queryParams[key] == '' || (key == 'page' && queryParams['page'] <= 1))) {
-        delete queryParams[key];
-      }
-    });
-    console.log(queryParams);
-    this.$router.push({path: '/admin', query: queryParams});
   }
 }
 </script>

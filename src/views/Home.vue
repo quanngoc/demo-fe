@@ -12,11 +12,13 @@
             <span class="black-text">Newwave Solutions</span>
           </h2>
           <div class="info-recruit">
-            <p>Newwave Solutions là một trong những công ty IT outsourcing hàng đầu cung cấp các dịch vụ công nghệ thông tin với
+            <p>Newwave Solutions là một trong những công ty IT outsourcing hàng đầu cung cấp các dịch vụ công nghệ thông
+              tin với
               <b>10+ năm kinh nghiệm</b> và
               <b>300+ nhân viên </b>
             </p>
-            <p>Với tầm nhìn cung cấp những giải pháp phát triển phần mềm và chuyển đổi số để tối ưu hoá quy trình sản xuất,
+            <p>Với tầm nhìn cung cấp những giải pháp phát triển phần mềm và chuyển đổi số để tối ưu hoá quy trình sản
+              xuất,
               kinh doanh của các công ty, doanh nghiệp trên toàn thế giới với chi phí hợp lý và hiệu quả cao, chúng tôi
               cung cấp đa dạng các dịch vụ như:
             </p>
@@ -40,36 +42,20 @@
         <div class="grid-content"></div>
       </el-col>
     </el-row>
-    <el-footer class="footer-page">
-      <el-row>
-        <el-col :span="8">
-          <div class="grid-content text-center">
-            <h2 class="text-style">About</h2>
-            <p><a href="https://newwave.vn/contact/" target="_blank">- Contact</a></p>
-            <p><a href="https://github.com/quanngoc/newwave-fe" target="_blank">- GitHub</a></p>
-          </div>
-        </el-col>
-        <el-col :span="8">
-          <div class="grid-content ">
-            <h2 class="text-style">Contact Us</h2>
-            <p><a href="https://newwave.vn/contact/" target="_blank">- Contact</a></p>
-            <p><a href="https://newwave.vn/blog/" target="_blank">- Blog</a></p>
-          </div>
-        </el-col>
-        <el-col :span="8">
-          <div class="grid-content ">
-          </div>
-        </el-col>
-      </el-row>
-    </el-footer>
+    <Footer></Footer>
   </div>
 
 </template>
 
 <script lang="ts">
 import {Component, Vue} from "vue-property-decorator";
+import Footer from "@/components/Footer.vue";
 
-@Component
+@Component({
+  components: {
+    Footer
+  }
+})
 export default class Home extends Vue {
 
 }
@@ -108,19 +94,5 @@ label {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   width: max-content;
-}
-
-.footer-page {
-  background-color: #f7fbfd!important;
-  height: 250px!important;
-  margin-top: 150px;
-  padding-top: 3.75rem;
-}
-
-.text-style {
-  background: linear-gradient(45deg, #01c0ea 20%, #2991f7 100%, #9fd0ff 20%);
-  background: -webkit-linear-gradient(45deg, #01c0ea 20%, #2991f7 100%, #9fd0ff 20%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
 }
 </style>

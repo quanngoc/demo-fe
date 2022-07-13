@@ -1,56 +1,6 @@
 <template>
   <div id="app">
-    <nav class="navbar navbar-expand navbar-dark " style="background-color: #0b78e5!important;">
-      <a href class="navbar-brand" @click.prevent>Newwave</a>
-      <div class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <router-link to="/home" class="nav-link">
-            <font-awesome-icon icon="home"/>
-            Home
-          </router-link>
-        </li>
-        <li v-if="showAdminBoard" class="nav-item">
-          <router-link to="/admin" class="nav-link">Admin Board</router-link>
-        </li>
-        <li class="nav-item">
-          <router-link v-if="currentUser" to="/user" class="nav-link"
-          >User
-          </router-link
-          >
-        </li>
-      </div>
-
-      <div v-if="!currentUser" class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <router-link to="/register" class="nav-link">
-            <font-awesome-icon icon="user-plus"/>
-            Sign Up
-          </router-link>
-        </li>
-        <li class="nav-item">
-          <router-link to="/login" class="nav-link">
-            <font-awesome-icon icon="sign-in-alt"/>
-            Login
-          </router-link>
-        </li>
-      </div>
-
-      <div v-if="currentUser" class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <router-link to="/profile" class="nav-link">
-            <font-awesome-icon icon="user"/>
-            {{ currentUser.username }}
-          </router-link>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href @click.prevent="logOut">
-            <font-awesome-icon icon="sign-out-alt"/>
-            LogOut
-          </a>
-        </li>
-      </div>
-    </nav>
-
+    <Header></Header>
     <div style="max-width: 100%">
       <router-view/>
     </div>
@@ -59,31 +9,15 @@
 
 <script lang="ts">
 import {Component, Vue} from "vue-property-decorator";
-import {namespace} from "vuex-class";
 import 'element-ui/lib/theme-chalk/index.css';
+import Header from "@/components/Header.vue";
 
-const Auth = namespace("Auth");
-
-@Component
+@Component({
+  components: {
+    Header
+  }
+})
 export default class App extends Vue {
-  @Auth.State("user")
-  private currentUser!: any;
-
-  @Auth.Action
-  private signOut!: () => void;
-
-  get showAdminBoard(): boolean {
-    if (this.currentUser && this.currentUser.roles) {
-      return this.currentUser.roles.includes("ROLE_ADMIN");
-    }
-
-    return false;
-  }
-
-  logOut() {
-    this.signOut();
-    this.$router.push("/login");
-  }
 }
 </script>
 <style>
@@ -96,6 +30,7 @@ export default class App extends Vue {
   -webkit-border-radius: 50%;
   border-radius: 50%;
 }
+
 .card {
   background-color: #f7f7f7;
   padding: 20px 25px 30px;
