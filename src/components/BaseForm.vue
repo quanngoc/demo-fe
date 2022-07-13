@@ -40,7 +40,6 @@
     ]">
       <el-input type="password" v-model.number="userForm.newPassword" autocomplete="off"></el-input>
     </el-form-item>
-
     <el-form-item v-if="this.formname == DETAIL"
                   label="Confirm"
                   prop="conNewPassword"
@@ -50,13 +49,11 @@
       <el-input type="password" v-model.number="userForm.conNewPassword" autocomplete="off"></el-input>
     </el-form-item>
 
-    <el-button class="button-width" v-if="this.formname == DETAIL" type="primary" @click="handleChangePassword()">
-      Change
+    <el-button class="button-width" v-if="this.formname == DETAIL" type="primary" @click="handleChangePassword()">Change
     </el-button>
     <el-button class="button-width" v-if="this.formname == LOGIN" type="primary" @click="handleLogin()">Login
     </el-button>
-    <el-button class="button-width" v-if="this.formname == REGISTER" type="primary" @click="handleRegister()">
-      Register
+    <el-button class="button-width" v-if="this.formname == REGISTER" type="primary" @click="handleRegister()">Register
     </el-button>
   </el-form>
 </template>
@@ -64,7 +61,6 @@
 import {Component, Prop, Vue} from 'vue-property-decorator'
 import UserService from "@/services/user-service";
 import {namespace} from "vuex-class";
-
 
 const Auth = namespace("Auth");
 
@@ -85,71 +81,76 @@ export default class BaseForm extends Vue {
 
   @Prop(String) readonly formname: any;
 
-  userForm = {username: "", email: "", password: "", oldPassword: "", newPassword: "", conNewPassword: "", id: ""}
-
+  userForm = {username: null, email: null, password: "", oldPassword: "", newPassword: "", conNewPassword: "", id: ""}
 
   handleRegister() {
-    if (!this.userForm.username && !this.userForm.email && !this.userForm.password) {
-      return false;
-    }
-
-    this.register(this.userForm).then(
-        (data) => {
-          this.$router.push("/home");
-        },
-        (error) => {
-          this.$notify.error({
-            title: 'Error',
-            message: error
-          });
-        }
-    );
+    (this.$refs.userForm as any).validate((valid: any) => {
+      if (valid) {
+        this.register(this.userForm).then(
+            (data) => {
+              this.$router.push("/home");
+            },
+            (error) => {
+              this.$notify.error({
+                title: 'Error',
+                message: error
+              });
+            }
+        );
+      } else {
+        return false;
+      }
+    });
   }
 
   handleChangePassword() {
-    if (!this.userForm.oldPassword && !this.userForm.newPassword && !this.userForm.conNewPassword) {
-      return false;
-    }
-
-    this.userForm.id = this.currentUser.id;
-    UserService.changePassword(this.userForm).then(
-        (data) => {
-          this.$router.push("/home");
-          this.$notify({
-            title: 'Success',
-            message: 'This is a success message',
-            type: 'success'
-          });
-        },
-        (error) => {
-          this.$notify.error({
-            title: 'Error',
-            message: error.response.data.message
-          });
-        }
-    );
+    (this.$refs.userForm as any).validate((valid: any) => {
+      if (valid) {
+        this.userForm.id = this.currentUser.id;
+        UserService.changePassword(this.userForm).then(
+            (data) => {
+              this.$router.push("/home");
+              this.$notify({
+                title: 'Success',
+                message: 'This is a success message',
+                type: 'success'
+              });
+            },
+            (error) => {
+              this.$notify.error({
+                title: 'Error',
+                message: error.response.data.message
+              });
+            }
+        );
+      } else {
+        return false;
+      }
+    });
   }
 
 
   handleLogin() {
-    if (!this.userForm.username && !this.userForm.password) return
-
-    this.login(this.userForm).then(
-        (data) => {
-          this.$router.push("/home");
-        },
-        (error) => {
-          this.$notify.error({
-            title: 'Error',
-            message: 'Username Or Password not correct!'
-          });
-        }
-    );
+    (this.$refs.userForm as any).validate((valid: any) => {
+      if (valid) {
+        this.login(this.userForm).then(
+            (data) => {
+              this.$router.push("/home");
+            },
+            (error) => {
+              this.$notify.error({
+                title: 'Error',
+                message: 'Username Or Password not correct!'
+              });
+            }
+        );
+      } else {
+        return false;
+      }
+    });
   }
-
 }
 </script>
-
 <style scoped>
 .button-width {
   width: 100%;

@@ -18,7 +18,6 @@
           >
         </li>
       </div>
-
       <div v-if="!currentUser" class="navbar-nav ml-auto">
         <li class="nav-item">
           <router-link to="/register" class="nav-link">
@@ -33,7 +32,6 @@
           </router-link>
         </li>
       </div>
-
       <div v-if="currentUser" class="navbar-nav ml-auto">
         <li class="nav-item">
           <router-link to="/profile" class="nav-link">
@@ -55,7 +53,6 @@
 import {Component, Vue} from "vue-property-decorator";
 import {namespace} from "vuex-class";
 const Auth = namespace("Auth");
-
 
 @Component
 export default class Header extends Vue {
