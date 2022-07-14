@@ -153,22 +153,7 @@ export default class AdminBoard extends Vue {
 
 
   mounted() {
-    UserService.getAdminBoard().then(
-        (response) => {
-          this.content = response.data.content;
-          this.totalElements = response.data.totalElements;
-        },
-        (error) => {
-          this.content =
-              (error.response && error.response.data && error.response.data.message) ||
-              error.message ||
-              error.toString();
-          this.$notify.error({
-            title: 'Error',
-            message: error.response.data.message
-          });
-        }
-    );
+    this.searchUser();
   }
 
   showModal(item: any) {
@@ -246,6 +231,7 @@ export default class AdminBoard extends Vue {
   }
 
   search() {
+    this.$router.push({ path: "/admin", query: this.params });
     UserService.search(this.params).then(
         (response) => {
           this.content = response.data.content;
@@ -296,8 +282,7 @@ export default class AdminBoard extends Vue {
         delete query[key];
       }
     });
-    query['page'] = query['page'] - 1;
-
+    this.params = query;
     this.search();
   }
 }

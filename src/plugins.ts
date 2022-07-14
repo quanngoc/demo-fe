@@ -5,9 +5,6 @@ import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 import {BootstrapVue} from "bootstrap-vue"
 import ElementUI from 'element-ui';
 
-import interceptorsSetup from "@/helpers/http-interceptor"
-
-interceptorsSetup();
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.use(BootstrapVue)
 Vue.use(ElementUI);

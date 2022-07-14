@@ -23,6 +23,8 @@ library.add(faHome, faUser, faUserPlus, faSignInAlt, faSignOutAlt);
 
 Vue.config.productionTip = false;
 interceptorsSetup();
+
+// move to plugins file
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.use(BootstrapVue)
 Vue.use(ElementUI);
