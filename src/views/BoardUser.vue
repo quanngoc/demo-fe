@@ -13,8 +13,6 @@
 
 <script lang="ts">
 import {Component, Vue} from "vue-property-decorator";
-import UserService from "@/services/user-service";
-import {namespace} from "vuex-class";
 import BaseForm from "@/components/BaseForm.vue";
 
 @Component({

@@ -36,6 +36,11 @@ const routes: Array<RouteConfig> = [
     path: '/user',
     name: 'user',
     component: () => import('../views/BoardUser.vue')
+  },
+  {
+    path: '/chart',
+    name: 'chart',
+    component: () => import('../views/BoardChart.vue')
   }
 ];
 

@@ -11,6 +11,9 @@
         <li v-if="showAdminBoard" class="nav-item">
           <router-link to="/admin" class="nav-link">Admin Board</router-link>
         </li>
+        <li v-if="showAdminBoard" class="nav-item">
+          <router-link to="/chart" class="nav-link">Chart</router-link>
+        </li>
         <li class="nav-item">
           <router-link v-if="currentUser" to="/user" class="nav-link"
           >User

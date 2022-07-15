@@ -54,6 +54,10 @@ class UserService {
                 link.click()
             })
     }
+
+    chartAge() {
+        return axios.get(API_URL + 'user/chart-age' , {});
+    }
 }
 
 export default new UserService();

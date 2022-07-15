@@ -16,6 +16,14 @@
     ]">
       <el-input type="text" v-model.number="userForm.email" autocomplete="off"></el-input>
     </el-form-item>
+    <el-form-item v-if="this.formname == REGISTER"
+                  label="Name"
+                  prop="name"
+                  :rules="[
+      { required: true, message: 'name is required'}
+    ]">
+      <el-input type="text" v-model.number="userForm.name" autocomplete="off"></el-input>
+    </el-form-item>
     <el-form-item v-if="this.formname != DETAIL"
                   label="Password"
                   prop="password"
@@ -40,7 +48,7 @@
     ]">
       <el-input type="password" v-model.number="userForm.newPassword" autocomplete="off"></el-input>
     </el-form-item>
-    <el-form-item v-if="this.formname == DETAIL"
+    <el-form-item v-if="this.formname != LOGIN"
                   label="Confirm"
                   prop="conNewPassword"
                   :rules="[
@@ -48,7 +56,11 @@
     ]">
       <el-input type="password" v-model.number="userForm.conNewPassword" autocomplete="off"></el-input>
     </el-form-item>
-
+    <el-form-item v-if="this.formname == REGISTER"
+                  label="Age"
+                  prop="age">
+      <el-input type="text" v-model.number="userForm.age" autocomplete="off"></el-input>
+    </el-form-item>
     <el-button class="button-width" v-if="this.formname == DETAIL" type="primary" @click="handleChangePassword()">Change
     </el-button>
     <el-button class="button-width" v-if="this.formname == LOGIN" type="primary" @click="handleLogin()">Login
@@ -81,7 +93,7 @@ export default class BaseForm extends Vue {
 
   @Prop(String) readonly formname: any;
 
-  userForm = {username: null, email: null, password: "", oldPassword: "", newPassword: "", conNewPassword: "", id: ""}
+  userForm = {username: "", email: "", password: "", oldPassword: "", newPassword: "", conNewPassword: "",name:"",age:"", id: ""}
 
   handleRegister() {
     (this.$refs.userForm as any).validate((valid: any) => {
