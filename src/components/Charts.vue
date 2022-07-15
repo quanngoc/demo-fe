@@ -53,7 +53,7 @@ export default class Chart extends Vue {
     {value: 'unknown', name: 'Không xác định'},
   ];
 
-  chartOptionsPie = {
+  chartOptionsPie:any = {
     title: {
       text: 'Độ tuổi người dùng',
       left: 'center',
