@@ -12,6 +12,7 @@
       </el-input>
       <el-button type="primary" @click="searchUser">Search</el-button>
       <el-button type="warning" @click="exportExcel" class="export-excel">Export Excel</el-button>
+      <el-button type="warning" @click="exportPDFAllUser" class="export-excel">Export PDF</el-button>
     </div>
     <br>
     <el-table :data="this.content" class="table-width">
@@ -215,6 +216,10 @@ export default class AdminBoard extends Vue {
 
   exportExcel() {
     UserService.downloadFileExcel();
+  }
+
+  exportPDFAllUser() {
+    UserService.downloadFilePDFAllUser();
   }
 
   handleCurrentChange(val: any) {

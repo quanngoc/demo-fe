@@ -163,6 +163,6 @@ export default class Chart extends Vue {
 
 <style scoped>
 .chart {
-  height: 100vh;
+  height: 500px !important;
 }
 </style>

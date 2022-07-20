@@ -58,6 +58,19 @@ class UserService {
     chartAge() {
         return axios.get(API_URL + 'user/chart-age' , {});
     }
+
+    downloadFilePDFAllUser() {
+        return axios.get(API_URL + 'user/export-pdf' , {
+            responseType: 'arraybuffer'
+        })
+            .then(response => {
+                let blob = new Blob([response.data], {type: 'application/pdf'})
+                let link = document.createElement('a')
+                link.href = window.URL.createObjectURL(blob)
+                link.download = 'all-user' + '.pdf'
+                link.click()
+            })
+    }
 }
 
 export default new UserService();
