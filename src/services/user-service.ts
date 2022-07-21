@@ -64,10 +64,11 @@ class UserService {
             responseType: 'arraybuffer'
         })
             .then(response => {
+                var formatted_date = new Date().toJSON().slice(0, 10).replace(/-/g, '-');
                 let blob = new Blob([response.data], {type: 'application/pdf'})
                 let link = document.createElement('a')
                 link.href = window.URL.createObjectURL(blob)
-                link.download = 'all-user' + '.pdf'
+                link.download = 'all-user-' + formatted_date + '.pdf'
                 link.click()
             })
     }
